@@ -1110,6 +1110,11 @@ $.fn.dropdown = function(parameters) {
             },
             hide: function(event) {
               module.determine.eventInModule(event, module.hide);
+              if (module.is.ie()) {
+                // prevents IE11 bug where menu receives focus even though `tabindex=-1`
+                $(document.activeElement).blur();
+              }
+
             }
           },
           select: {
@@ -3248,6 +3253,13 @@ $.fn.dropdown = function(parameters) {
                 : false
             ;
             return (overflowX == 'auto' || overflowX == 'scroll');
+          },
+          ie: function() {
+            var
+              isIE11 = (!(window.ActiveXObject) && 'ActiveXObject' in window),
+              isIE   = ('ActiveXObject' in window)
+            ;
+            return (isIE11 || isIE);
           }
         },
 
